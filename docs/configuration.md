@@ -21,18 +21,32 @@ Recommended models:
 To see available models: `ollama list`
 To install a model: `ollama pull model-name`
 
-### Ollama Connection
+### Provider
 
 ```json
 {
-  "ollama_url": "http://localhost:11434"
+  "provider": "ollama"
 }
 ```
 
-Change this if:
-- Ollama runs on a different port
-- Using a remote Ollama instance
-- Using a custom Ollama setup
+Supported providers:
+- `ollama` (default) - Uses Ollama's `/api/generate` endpoint
+- `openai` - Uses the OpenAI-compatible `/v1/chat/completions` endpoint (works with LM Studio, llama.cpp server, vLLM, text-generation-webui, etc.)
+
+### API Connection
+
+```json
+{
+  "api_url": "http://localhost:11434"
+}
+```
+
+The base URL for your provider. Defaults to `ollama_url` if `api_url` is not set.
+
+Common values:
+- Ollama: `http://localhost:11434`
+- LM Studio: `http://localhost:1234`
+- llama.cpp server: `http://localhost:8080`
 
 ### Response Behavior
 
@@ -135,6 +149,18 @@ If generated commands aren't good:
 4. Provide more specific natural language prompts
 
 ## Example Configurations
+
+### LM Studio
+
+```json
+{
+  "provider": "openai",
+  "api_url": "http://localhost:1234",
+  "model": "qwen3.5-9b",
+  "temperature": 0.1,
+  "system_prompt": "You are a shell command generator. Output exactly one single-line command for the requested task. No explanations, no markdown, no code fences, no language tags. Only the raw command."
+}
+```
 
 ### Performance-focused
 
